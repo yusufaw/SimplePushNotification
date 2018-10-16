@@ -21,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
         Button btnSubscribe = (Button) findViewById(R.id.btnSubscribe);
         Button btnUnsubscribe = (Button) findViewById(R.id.btnUnsubcribe);
 
+        Button btnTestNotification = findViewById(R.id.btnTestNotif);
+
         sharedPreferences   = getSharedPreferences(Constants.PREF_NAME, Activity.MODE_PRIVATE);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -35,6 +37,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 FirebaseMessaging.getInstance().subscribeToTopic("news");
+            }
+        });
+
+        btnTestNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyFirebaseMessagingService.sendNotification("My Notification", "Hello Kamu");
             }
         });
     }
