@@ -14,22 +14,24 @@ import com.google.firebase.messaging.FirebaseMessaging;
 public class MainActivity extends AppCompatActivity {
 
     private SharedPreferences sharedPreferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button btnSubscribe = (Button) findViewById(R.id.btnSubscribe);
-        Button btnUnsubscribe = (Button) findViewById(R.id.btnUnsubcribe);
+        Button btnSubscribe = findViewById(R.id.btnSubscribe);
+        Button btnUnsubscribe = findViewById(R.id.btnUnsubcribe);
 
         Button btnTestNotification = findViewById(R.id.btnTestNotif);
+        Button btnTestGroupNotification = findViewById(R.id.btnTestGroupNotif);
 
-        sharedPreferences   = getSharedPreferences(Constants.PREF_NAME, Activity.MODE_PRIVATE);
+        sharedPreferences = getSharedPreferences(Constants.PREF_NAME, Activity.MODE_PRIVATE);
         btnSubscribe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FirebaseMessaging.getInstance().subscribeToTopic("news");
                 Log.d("FIREBASE_NOTIF_TOKEN", sharedPreferences.getString(Constants.FIREBASE_NOTIF_TOKEN, ""));
-                Log.d("token", "onClick: "+ FirebaseInstanceId.getInstance().getToken());
+                Log.d("token", "onClick: " + FirebaseInstanceId.getInstance().getToken());
             }
         });
 
@@ -44,6 +46,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 MyFirebaseMessagingService.sendNotification("My Notification", "Hello Kamu");
+            }
+        });
+
+        btnTestGroupNotification.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MyFirebaseMessagingService.showGroupNotification();
             }
         });
     }
