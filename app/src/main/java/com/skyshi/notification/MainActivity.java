@@ -10,6 +10,10 @@ import android.widget.Button;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.moe.pushlibrary.MoEHelper;
+import com.moe.pushlibrary.PayloadBuilder;
+
+import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,5 +59,13 @@ public class MainActivity extends AppCompatActivity {
                 MyFirebaseMessagingService.showGroupNotification();
             }
         });
+
+        PayloadBuilder builder = new PayloadBuilder()
+                .putAttrDate("sign-up-date", new Date())
+                .putAttrString("type", "user-pass");
+        //sample track event
+        MoEHelper.getInstance(getApplicationContext()).trackEvent("Sign Up", builder.build());
+
+        MoEHelper.getInstance(getApplicationContext()).setUniqueId(123);
     }
 }
