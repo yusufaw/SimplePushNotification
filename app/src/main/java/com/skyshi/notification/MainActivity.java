@@ -1,6 +1,7 @@
 package com.skyshi.notification;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -56,16 +57,16 @@ public class MainActivity extends AppCompatActivity {
         btnTestGroupNotification.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MyFirebaseMessagingService.showGroupNotification();
+//                MyFirebaseMessagingService.showGroupNotification();
+                Intent intent = new Intent(getApplicationContext(), RegisterActivity.class);
+                startActivity(intent);
             }
         });
 
-        PayloadBuilder builder = new PayloadBuilder()
-                .putAttrDate("sign-up-date", new Date())
-                .putAttrString("type", "user-pass");
-        //sample track event
-        MoEHelper.getInstance(getApplicationContext()).trackEvent("Sign Up", builder.build());
-
-        MoEHelper.getInstance(getApplicationContext()).setUniqueId(123);
+//        PayloadBuilder builder = new PayloadBuilder()
+//                .putAttrDate("sign-up-date", new Date())
+//                .putAttrString("type", "user-pass");
+//        //sample track event
+//        MoEHelper.getInstance(getApplicationContext()).trackEvent("Sign Up", builder.build());
     }
 }
