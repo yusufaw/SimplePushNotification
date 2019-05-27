@@ -1,11 +1,13 @@
 package com.skyshi.notification;
 
+import android.app.Activity;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
@@ -22,9 +24,19 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     static String CHANNEL_ID = "EXAMPLE_CHANNEL_ID";
     static String GROUP_KEY_WORK_EMAIL = "HEHE_EMAIL";
     static int SUMMARY_ID = 9;
+
+
+    private static final String TAG = "MyFirebaseIIDService";
+    private SharedPreferences sharedPreferences;
+
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
         sendNotification(remoteMessage.getData().get("title"), remoteMessage.getData().get("body"));
+    }
+
+    @Override
+    public void onNewToken(String s) {
+        sendRegistrationToServer(s);
     }
 
     public static void sendNotification(String messageTitle, String messageBody) {
@@ -94,5 +106,16 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         notificationManager.notify(2, newMessageNotification2);
         notificationManager.notify(SUMMARY_ID, summaryNotification);
 
+    }
+
+
+    private void sendRegistrationToServer(String strRefreshedToken) {
+        //You can implement this method to store the token on your server
+        //Not required for current project
+        sharedPreferences   = getSharedPreferences(Constants.PREF_NAME, Activity.MODE_PRIVATE);
+
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString(Constants.FIREBASE_NOTIF_TOKEN, strRefreshedToken);
+        editor.apply();
     }
 }
